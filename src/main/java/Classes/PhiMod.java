@@ -33,9 +33,7 @@ public class PhiMod {
         for (int i=0;i<nr_phases;i++){
             double frac = (double)i / (double)phases;
             sinvec[i] = Math.sin(2*Math.PI*frac);
-            System.out.println(sinvec[i]);
             cosvec[i] = Math.cos(2*Math.PI*frac);
-            System.out.println(cosvec[i]);
         }
     }
     public void calc(double data[]){
