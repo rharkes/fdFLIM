@@ -59,9 +59,9 @@ public class PhiMod {
             for (int i=0;i<nr_phases;i++){
                 double frac = (double)i / (double)nr_phases;
                 double S = mean * (1+modulation*Math.sin(2*Math.PI*frac+phase));
-                GoodFit += Math.pow(data[i]-S,2);
+                GoodFit += Math.pow(data[i]-S,2); //sum of squared errors
             }
-            GoodFit = Math.sqrt(GoodFit/nr_phases);
+            GoodFit = GoodFit/nr_phases; //mean sum of squared errors (MSSE)
         }
     }
 }

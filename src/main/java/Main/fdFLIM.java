@@ -109,14 +109,13 @@ public class fdFLIM implements Command, Previewable {
         result = result.convertToFloat();
         for (int x = 0;x<w;x++){
             for (int y=0;y<h;y++){
-                //phase
-                double phi = Sam.getVoxel(x,y,0) - (Ref.getVoxel(x, y, 0)-phi_ref);
-                double mod = (Sam.getVoxel(x,y,1)*mod_ref)/Ref.getVoxel(x, y, 1);
+                double phi = Sam.getVoxel(x,y,0) - (Ref.getVoxel(x, y, 0)-phi_ref); //phase
+                double mod = (Sam.getVoxel(x,y,1)*mod_ref)/Ref.getVoxel(x, y, 1); //modulation
                 result.setVoxel(x, y, 0, 1E9*Math.tan(phi)/Omega);
                 result.setVoxel(x, y, 1, 1E9*Math.sqrt((1/(mod*mod))-1)/Omega);
-                result.setVoxel(x, y, 2, Sam.getVoxel(x,y,2));
+                result.setVoxel(x, y, 2, Sam.getVoxel(x,y,2)); //mean intensity of sample
                 if (GF){
-                    result.setVoxel(x, y, 3, Math.sqrt(Math.pow(Sam.getVoxel(x,y,4),2)+Math.pow(Ref.getVoxel(x,y,4),2)));
+                    result.setVoxel(x, y, 3, Math.sqrt(Sam.getVoxel(x,y,3)+Ref.getVoxel(x,y,3))); //sqrt(msse+msse)
                 }
             }
         }
@@ -132,7 +131,7 @@ public class fdFLIM implements Command, Previewable {
         result.addSlice("Phase",new ByteProcessor(w,h));
         result.addSlice("Modulation",new ByteProcessor(w,h));
         result.addSlice("Mean",new ByteProcessor(w,h));
-        if (PM.doGF){result.addSlice("Goodness of Fit",new ByteProcessor(w,h));}
+        if (GF){result.addSlice("Goodness of Fit",new ByteProcessor(w,h));}
         result = result.convertToFloat();
         double[] data = new double[phases];
         for (int x = 0;x<w;x++){
@@ -144,7 +143,7 @@ public class fdFLIM implements Command, Previewable {
                 result.setVoxel(x, y, 0, PM.phase);
                 result.setVoxel(x, y, 1, PM.modulation);
                 result.setVoxel(x, y, 2, PM.mean);
-                if (PM.doGF){result.setVoxel(x, y, 2, PM.GoodFit);}
+                if (GF){result.setVoxel(x, y, 3, PM.GoodFit);}
             }
         }
         return result;

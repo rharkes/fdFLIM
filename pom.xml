@@ -14,7 +14,7 @@
 
     <groupId>nl.nki-avl</groupId>
     <artifactId>Frequency_FLIM_analysis</artifactId>
-    <version>1.1a</version>
+    <version>1.2a</version>
 
     <name>Frequency FLIM analysis</name>
     <description>Analysis of .fli files for lifetime analysis.</description>
