@@ -1,2 +1,2 @@
-# fdFLIM
-Frequency domain fluorescence lifetime analysis in ImageJ
+# Frequency Domain Fluorescence Lifetime
+Analysis of .fli files for lifetime analysis. 
