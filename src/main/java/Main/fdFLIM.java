@@ -48,6 +48,9 @@ public class fdFLIM implements Command, Previewable {
     @Parameter(label = "Only Phi and Mod", description = "Calculate only phase shift and modulation")
     private Boolean BoolPhiMod;
     
+    @Parameter(label = "Goodness of Fit", description = "Calculate the Goodness of Fit parameter")
+    private Boolean GF;
+    
     @Parameter(label = "Select Reference Image", description = "Reference Image")
     private ImagePlus Image2;
     
@@ -102,6 +105,7 @@ public class fdFLIM implements Command, Previewable {
         result.addSlice("Lifetime from Phase",new ByteProcessor(w,h));
         result.addSlice("Lifetime from Modulation",new ByteProcessor(w,h));
         result.addSlice("Mean",new ByteProcessor(w,h));
+        if (GF){result.addSlice("Goodness of Fit",new ByteProcessor(w,h));}
         result = result.convertToFloat();
         for (int x = 0;x<w;x++){
             for (int y=0;y<h;y++){
@@ -111,6 +115,9 @@ public class fdFLIM implements Command, Previewable {
                 result.setVoxel(x, y, 0, 1E9*Math.tan(phi)/Omega);
                 result.setVoxel(x, y, 1, 1E9*Math.sqrt((1/(mod*mod))-1)/Omega);
                 result.setVoxel(x, y, 2, Sam.getVoxel(x,y,2));
+                if (GF){
+                    result.setVoxel(x, y, 3, Math.sqrt(Math.pow(Sam.getVoxel(x,y,4),2)+Math.pow(Ref.getVoxel(x,y,4),2)));
+                }
             }
         }
         return result;
@@ -120,10 +127,12 @@ public class fdFLIM implements Command, Previewable {
         int h = input.getHeight();
         int w = input.getWidth();
         PhiMod PM = new PhiMod(phases);
+        PM.doGF = GF;
         ImageStack result = new ImageStack(w,h);
         result.addSlice("Phase",new ByteProcessor(w,h));
         result.addSlice("Modulation",new ByteProcessor(w,h));
         result.addSlice("Mean",new ByteProcessor(w,h));
+        if (PM.doGF){result.addSlice("Goodness of Fit",new ByteProcessor(w,h));}
         result = result.convertToFloat();
         double[] data = new double[phases];
         for (int x = 0;x<w;x++){
@@ -135,6 +144,7 @@ public class fdFLIM implements Command, Previewable {
                 result.setVoxel(x, y, 0, PM.phase);
                 result.setVoxel(x, y, 1, PM.modulation);
                 result.setVoxel(x, y, 2, PM.mean);
+                if (PM.doGF){result.setVoxel(x, y, 2, PM.GoodFit);}
             }
         }
         return result;

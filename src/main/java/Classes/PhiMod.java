@@ -24,9 +24,11 @@ public class PhiMod {
     public double phase;
     public double GoodFit;
     public double mean;
+    public boolean doGF;
     
     
     public PhiMod(int phases) {
+        doGF=false;
         nr_phases = phases;
         sinvec = new double[phases];
         cosvec = new double[phases];
@@ -51,6 +53,15 @@ public class PhiMod {
         Fc = Fc/nr_phases;
         modulation = 2*Math.sqrt((Fs*Fs)+(Fc*Fc))/mean;
         phase = Math.atan2(Fc, Fs);
-        GoodFit=1;
+        // determine the goodness of the fit
+        GoodFit = 0;
+        if (doGF){
+            for (int i=0;i<nr_phases;i++){
+                double frac = (double)i / (double)nr_phases;
+                double S = mean * (1+modulation*Math.sin(2*Math.PI*frac+phase));
+                GoodFit += Math.pow(data[i]-S,2);
+            }
+            GoodFit = Math.sqrt(GoodFit/nr_phases);
+        }
     }
 }
