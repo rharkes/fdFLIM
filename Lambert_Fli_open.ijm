@@ -21,8 +21,8 @@ run("32-bit");
 changeValues(0,0,NaN);
 imageCalculator("Multiply 32-bit stack", "Lifetimes","mask");
 close("mask");
-Stack.setChannel(1);run("Rainbow RGB");setMinAndMax(1, 4);
-Stack.setChannel(2);run("Rainbow RGB");setMinAndMax(1, 4);
+Stack.setChannel(1);run("royal");setMinAndMax(1, 4);
+Stack.setChannel(2);run("royal");setMinAndMax(1, 4);
 Stack.setChannel(3);run("Grays");run("Enhance Contrast", "saturated=0.35");
 
 
