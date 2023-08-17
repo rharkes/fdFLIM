@@ -8,6 +8,10 @@ Can calculate:
 * lifetime from modulation using reference data with a known lifetime
 * the mean sum of squared errors for the fit in each pixel.
 
+## Installation
+Download [Frequency_FLIM_analysis-1.01.jar](https://github.com/rharkes/fdFLIM/releases/download/1.01/Frequency_FLIM_analysis-1.01.jar), save in the `Fiji.App\plugins` folder and restart Fiji.
+
+## Example use
 An example macro that opens and thresholds a .fli file and thresholds the image on intensity can be found here:
 https://github.com/rharkes/ImageJ-Macros/blob/master/Rolf/Get-Lifetime.ijm
 
